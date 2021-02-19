@@ -1,4 +1,4 @@
-name: 'deployphp/action'
+name: 'interactiondesignfoundation/deployer-action'
 description: 'Deploy with Deployer'
 inputs:
   private-key:
