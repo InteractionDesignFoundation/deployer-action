@@ -2,7 +2,7 @@ const core = require('@actions/core')
 const fs = require('fs')
 const execa = require('execa')
 const split = require('argv-split')
-const {exec} = require('child_process')
+const {execSync} = require('child_process')
 
 void function main() {
   try {
@@ -56,7 +56,7 @@ function dep() {
     dep = 'deployer.phar'
   }
 
-  const process = exec(dep, split(core.getInput('dep')))
+  const process = execSync(`${dep} ${core.getInput('dep')}`)
 
   process.stdout.on('data', (stdOutChunk) => {
     core.info(stdOutChunk.toString())
