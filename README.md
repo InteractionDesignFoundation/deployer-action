@@ -2,7 +2,7 @@
 
 ```yaml
   - name: Deploy
-    uses: deployphp/action@master
+    uses: interactiondesignfoundation/deployer-action@master
     with:
       private-key: ${{ secrets.PRIVATE_KEY }}
       known-hosts: ${{ secrets.KNOWN_HOSTS }}
@@ -28,7 +28,7 @@ If bin not found, phar version will be downloaded.
 
 ```yaml
 deploy:
-  name: Deploy to prod
+  name: Deploy application
   runs-on: ubuntu-latest
   steps:
   - uses: actions/checkout@v1
@@ -37,7 +37,7 @@ deploy:
     with:
       php-version: 7.4
   - name: Deploy
-    uses: deployphp/action@master
+    uses: interactiondesignfoundation/deployer-action@master
     with:
       private-key: ${{ secrets.PRIVATE_KEY }}
       known-hosts: ${{ secrets.KNOWN_HOSTS }}
