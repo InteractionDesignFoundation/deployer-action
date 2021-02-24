@@ -36,7 +36,7 @@ function ssh() {
 
 function dep() {
   let dep
-  for (let c of ['vendor/bin/dep', 'bin/dep', 'deployer.phar']) {
+  for (let c of ['vendor/bin/dep', 'bin/dep', 'deployer.phar', 'dep']) {
     if (fs.existsSync(c)) {
       dep = c
       break
