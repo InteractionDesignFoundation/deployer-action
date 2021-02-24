@@ -2,7 +2,6 @@ const core = require('@actions/core')
 const fs = require('fs')
 const execa = require('execa')
 const split = require('argv-split')
-const {execSync} = require('child_process')
 
 void function main() {
   try {
@@ -56,23 +55,9 @@ function dep() {
     dep = 'deployer.phar'
   }
 
-  const process = execSync(`${dep} ${core.getInput('dep')}`)
+  const output = execa.sync(dep, split(core.getInput('dep')))
 
-  process.stdout.on('data', (stdOutChunk) => {
-    core.info(stdOutChunk.toString())
-  })
-
-  process.stderr.on('data', (stdErrChunk) => {
-    core.error(stdErrChunk.toString())
-  })
-
-  process.on('exit', (exitCode) => {
-    core.endGroup()
-
-    if (exitCode === 1) {
-      core.setFailed(`Deployer failed with error code ${exitCode}`)
-    }
-  })
-
-  core.startGroup(`${dep} ${core.getInput('dep')}`)
+  output.exitCode === 0
+    ? core.info(output.stdout.toString())
+    : core.error(output.stderr.toString());
 }
