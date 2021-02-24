@@ -36,10 +36,17 @@ function ssh() {
 
 function dep() {
   let dep
-  for (let c of ['vendor/bin/dep', 'bin/dep', 'deployer.phar', 'dep']) {
+  for (let c of ['vendor/bin/dep', 'bin/dep', 'deployer.phar']) {
     if (fs.existsSync(c)) {
       dep = c
       break
+    }
+  }
+
+  if (!dep) {
+    const out = execa.commandSync('which dep')
+    if (out.exitCode === 0) {
+      dep = 'dep'
     }
   }
 
