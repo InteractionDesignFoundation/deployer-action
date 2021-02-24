@@ -1,4 +1,5 @@
 const core = require('@actions/core')
+const exec = require('@actions/exec')
 const fs = require('fs')
 const execa = require('execa')
 const split = require('argv-split')
@@ -34,7 +35,7 @@ function ssh() {
   }
 }
 
-function dep() {
+async function dep() {
   let dep
   for (let c of ['vendor/bin/dep', 'bin/dep', 'deployer.phar']) {
     if (fs.existsSync(c)) {
@@ -55,9 +56,20 @@ function dep() {
     dep = 'deployer.phar'
   }
 
-  const output = execa.sync(dep, split(core.getInput('dep')))
+  const options = {}
+  options.listeners = {
+    stdout: (stdOutChunk) => {
+      core.info(stdOutChunk.toString())
+    },
+    stderr: (stdErrChunk) => {
+      core.error(stdErrChunk.toString())
+    },
+    debug: (debugMessage) => {
+      core.debug(debugMessage)
+    },
+  };
 
-  output.exitCode === 0
-    ? core.info(output.stdout.toString())
-    : core.error(output.stderr.toString());
+  core.startGroup(`${dep} ${core.getInput('dep')}`)
+  await exec.exec(dep, split(core.getInput('dep')), options)
+  core.endGroup()
 }
