@@ -67,12 +67,12 @@ function dep() {
   })
 
   process.on('exit', (exitCode) => {
-    core.endGroup('dep')
+    core.endGroup()
 
-    exitCode === 0
-      ? core.info(exitCode)
-      : core.setFailed(`deployer failed with error code ${exitCode}`)
+    if (exitCode === 1) {
+      core.setFailed(`Deployer failed with error code ${exitCode}`)
+    }
   })
 
-  core.startGroup('dep')
+  core.startGroup(`${dep} ${core.getInput('dep')}`)
 }
