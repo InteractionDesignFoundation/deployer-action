@@ -43,11 +43,12 @@ function dep() {
     }
   }
 
-  if (!dep) {
-    const result = execa.commandSync('which dep')
-    if (result.exitCode === 0) {
-      dep = 'dep'
-    }
+  if (!dep && execa.commandSync('which dep').exitCode === 0) {
+    dep = 'dep'
+  }
+
+  if (!dep && execa.commandSync('which deployer').exitCode === 0) {
+    dep = 'deployer'
   }
 
   if (!dep) {
