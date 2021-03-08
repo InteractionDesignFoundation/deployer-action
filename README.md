@@ -42,4 +42,5 @@ deploy:
       private-key: ${{ secrets.PRIVATE_KEY }}
       known-hosts: ${{ secrets.KNOWN_HOSTS }}
       dep: deploy prod -v
+      version: 7.0.0-beta.13
 ```

@@ -52,7 +52,11 @@ function dep() {
   }
 
   if (!dep) {
-    execa.commandSync('curl -LO https://deployer.org/deployer.phar')
+    let url = 'https://deployer.org/deployer.phar';
+    if (core.getInput('version')) {
+      url = `https://deployer.org/releases/v${core.getInput('version')}/deployer.phar`;
+    }
+    execa.commandSync(`curl -LO ${url}`)
     dep = 'deployer.phar'
   }
 
