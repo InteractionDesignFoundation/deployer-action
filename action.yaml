@@ -12,6 +12,10 @@ inputs:
     description: 'Deployer arguments'
     required: false
     default: ''
+  version:
+    description: 'Deployer version'
+    required: false
+    default: ''
 runs:
   using: 'node12'
   main: 'index.js'
